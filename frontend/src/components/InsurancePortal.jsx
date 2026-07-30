@@ -26,10 +26,10 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
 
   const getPolicyIcon = (type) => {
     switch (type) {
-      case 'Health': return <HeartPulse className="w-6 h-6 text-emerald-400" />;
-      case 'Auto': return <Car className="w-6 h-6 text-blue-400" />;
-      case 'Home': return <Home className="w-6 h-6 text-purple-400" />;
-      default: return <ShieldCheck className="w-6 h-6 text-indigo-400" />;
+      case 'Health': return <HeartPulse className="w-6 h-6 text-emerald-600" />;
+      case 'Auto': return <Car className="w-6 h-6 text-blue-600" />;
+      case 'Home': return <Home className="w-6 h-6 text-purple-600" />;
+      default: return <ShieldCheck className="w-6 h-6 text-indigo-600" />;
     }
   };
 
@@ -76,34 +76,35 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
     <div className="space-y-6 animate-fade-in">
       
       {/* Top Banner Summary */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-teal-950/90 border border-slate-800 p-6 sm:p-8 overflow-hidden shadow-xl">
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      {/* Top Banner Hero */}
+      <div className="relative rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 overflow-hidden shadow-sm">
+        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" /> Direct Bank-Bound Protection
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Insurance & Protection Hub
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
-              You are currently covered by <strong className="text-white">${totalCoverage.toLocaleString()}</strong> in total protection limits across {policies.length} active policy plans.
+            <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">
+              You are currently covered by <strong className="text-slate-800">${totalCoverage.toLocaleString()}</strong> in total protection limits across {policies.length} active policy plans.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="bg-slate-900/80 px-4 py-3 rounded-2xl border border-slate-800 text-center">
-              <p className="text-[10px] text-slate-400 uppercase font-semibold">Total Monthly Premiums</p>
-              <p className="text-xl font-black text-emerald-400">${totalMonthlyPremium.toFixed(2)}</p>
-              <p className="text-[9px] text-slate-400">Auto-debited from Checking</p>
+            <div className="bg-slate-50 px-4 py-3 rounded-2xl border border-slate-200 text-center">
+              <p className="text-[10px] text-slate-500 uppercase font-semibold">Total Monthly Premiums</p>
+              <p className="text-xl font-black text-emerald-600">${totalMonthlyPremium.toFixed(2)}</p>
+              <p className="text-[9px] text-slate-500">Auto-debited from Checking</p>
             </div>
 
             <button
               onClick={onOpenInsuranceModal}
-              className="px-4 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-950/40 transition flex items-center gap-2"
+              className="px-4 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-2"
             >
               <Plus className="w-4 h-4" /> Apply New Policy
             </button>
@@ -114,12 +115,12 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
       {/* Active Policies Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-emerald-400" /> Active Insurance Policies ({policies.length})
+          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-emerald-600" /> Active Insurance Policies ({policies.length})
           </h2>
           <button
             onClick={onOpenClaimModal}
-            className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition flex items-center gap-1.5"
+            className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-amber-600 border border-slate-200 transition flex items-center gap-1.5"
           >
             <FileText className="w-3.5 h-3.5" /> Submit Claim
           </button>
@@ -129,53 +130,53 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
           {policies.map(p => (
             <div
               key={p.id}
-              className="p-5 rounded-2xl bg-[#131b2e] border border-slate-800 hover:border-slate-700 transition space-y-4 flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:shadow-sm transition space-y-4 flex flex-col justify-between shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
                       {getPolicyIcon(p.type)}
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 font-mono font-bold uppercase">{p.id}</span>
-                      <h3 className="text-xs font-bold text-slate-200">{p.title}</h3>
+                      <span className="text-[10px] text-slate-500 font-mono font-bold uppercase">{p.id}</span>
+                      <h3 className="text-xs font-bold text-slate-850">{p.title}</h3>
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100">
                     {p.status}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs">
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Total Coverage:</span>
-                    <span className="font-bold text-white">${p.coverage.toLocaleString()}</span>
+                    <span className="text-slate-550">Total Coverage:</span>
+                    <span className="font-bold text-slate-850">${p.coverage.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Monthly Premium:</span>
-                    <span className="font-bold text-emerald-400">${p.monthlyPremium.toFixed(2)}/mo</span>
+                    <span className="text-slate-550">Monthly Premium:</span>
+                    <span className="font-bold text-emerald-600">${p.monthlyPremium.toFixed(2)}/mo</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Policy Deductible:</span>
-                    <span className="text-slate-300">${p.deductible}</span>
+                    <span className="text-slate-550">Policy Deductible:</span>
+                    <span className="text-slate-700">${p.deductible}</span>
                   </div>
-                  <div className="flex justify-between border-t border-slate-800/80 pt-2 text-[11px]">
-                    <span className="text-slate-500">Insured Subject:</span>
-                    <span className="text-slate-300 font-medium truncate max-w-[150px]">{p.insuredSubject}</span>
+                  <div className="flex justify-between border-t border-slate-200 pt-2 text-[11px]">
+                    <span className="text-slate-400">Insured Subject:</span>
+                    <span className="text-slate-600 font-medium truncate max-w-[150px]">{p.insuredSubject}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+              <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
                 <button
                   onClick={() => alert(`Downloading official e-Policy document for ${p.id}...`)}
-                  className="text-slate-400 hover:text-white font-medium flex items-center gap-1 text-[11px]"
+                  className="text-slate-550 hover:text-slate-800 font-medium flex items-center gap-1 text-[11px]"
                 >
-                  <Download className="w-3 h-3 text-blue-400" /> e-Policy Certificate
+                  <Download className="w-3 h-3 text-blue-600" /> e-Policy Certificate
                 </button>
-                <span className="text-[10px] text-slate-500">Auto-debit Active</span>
+                <span className="text-[10px] text-slate-400">Auto-debit Active</span>
               </div>
             </div>
           ))}
@@ -185,10 +186,10 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
       {/* Available Insurance Products Catalog */}
       <div className="space-y-4 pt-4">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
-            <Zap className="w-5 h-5 text-blue-400" /> Available Insurance Coverage Plans
+          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-blue-600" /> Available Insurance Coverage Plans
           </h2>
-          <p className="text-xs text-slate-400">Select a product to calculate instant quotes and bind policy coverage.</p>
+          <p className="text-xs text-slate-500">Select a product to calculate instant quotes and bind policy coverage.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -197,28 +198,28 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
             return (
               <div
                 key={prod.type}
-                className="p-5 rounded-2xl bg-[#131b2e] border border-slate-800 hover:border-blue-500/40 transition flex flex-col justify-between space-y-4"
+                className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between space-y-4 shadow-sm"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <div className={`p-3 rounded-xl ${
-                      prod.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                      prod.color === 'blue' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                      prod.color === 'purple' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
-                      'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      prod.color === 'emerald' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
+                      prod.color === 'blue' ? 'bg-blue-50 text-blue-700 border border-blue-100' :
+                      prod.color === 'purple' ? 'bg-purple-50 text-purple-700 border border-purple-100' :
+                      'bg-amber-50 text-amber-700 border border-amber-100'
                     }`}>
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-xs font-bold text-white">{prod.startingPrice}</span>
+                    <span className="text-xs font-bold text-slate-900">{prod.startingPrice}</span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-white mb-1">{prod.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed mb-3">{prod.desc}</p>
+                  <h3 className="text-sm font-bold text-slate-800 mb-1">{prod.title}</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed mb-3">{prod.desc}</p>
 
-                  <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
+                  <div className="space-y-1.5 pt-2 border-t border-slate-200">
                     {prod.features.map((feat, i) => (
-                      <div key={i} className="flex items-center gap-2 text-[11px] text-slate-300">
-                        <CheckCircle className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                      <div key={i} className="flex items-center gap-2 text-[11px] text-slate-600">
+                        <CheckCircle className="w-3 h-3 text-emerald-600 flex-shrink-0" />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -227,7 +228,7 @@ export default function InsurancePortal({ onOpenInsuranceModal, onOpenClaimModal
 
                 <button
                   onClick={onOpenInsuranceModal}
-                  className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-blue-600 text-slate-200 hover:text-white font-semibold text-xs transition border border-slate-800 flex items-center justify-center gap-1.5"
+                  className="w-full py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-slate-900 font-semibold text-xs transition border border-slate-200 flex items-center justify-center gap-1.5"
                 >
                   Apply & Get Quote <ChevronRight className="w-3.5 h-3.5" />
                 </button>

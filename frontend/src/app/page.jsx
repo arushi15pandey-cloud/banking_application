@@ -34,7 +34,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-slate-100 flex flex-col font-sans selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-blue-500 selection:text-white">
       {/* Top Header Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -95,7 +95,7 @@ function AppContent() {
       />
 
       {/* Footer Branding Bar */}
-      <footer className="w-full border-t border-slate-800/80 bg-[#080b12] py-4 px-6 text-center text-xs text-slate-500">
+      <footer className="w-full border-t border-slate-200 bg-white py-4 px-6 text-center text-xs text-slate-400">
         <p>© 2026 Apex Bank & Shield Insurance Services Inc. Member FDIC & Equal Housing Lender. All rights reserved.</p>
       </footer>
     </div>
