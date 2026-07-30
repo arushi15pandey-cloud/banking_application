@@ -2,16 +2,16 @@
 
 import React, { useState } from 'react';
 import { useBanking } from '../context/BankingContext';
-import { 
-  Landmark, 
-  PiggyBank, 
-  CreditCard, 
-  ArrowUpRight, 
-  ArrowDownRight, 
-  ShieldCheck, 
-  TrendingUp, 
-  Plus, 
-  FileText, 
+import {
+  Landmark,
+  PiggyBank,
+  CreditCard,
+  ArrowUpRight,
+  ArrowDownRight,
+  ShieldCheck,
+  TrendingUp,
+  Plus,
+  FileText,
   ChevronRight,
   HeartPulse,
   Car,
@@ -45,7 +45,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
   return (
     <div className="space-y-6 animate-fade-in">
-      
+
       {/* Welcome Hero Banner */}
       <div className="relative rounded-3xl bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/90 border border-slate-800 p-6 sm:p-8 overflow-hidden shadow-xl">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -95,14 +95,13 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className={`p-2 rounded-xl ${
-                    acc.type === 'checking' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                    acc.type === 'savings' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
-                    'bg-purple-500/10 text-purple-400 border border-purple-500/20'
-                  }`}>
+                  <div className={`p-2 rounded-xl ${acc.type === 'checking' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                      acc.type === 'savings' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                        'bg-purple-500/10 text-purple-400 border border-purple-500/20'
+                    }`}>
                     {acc.type === 'checking' ? <Landmark className="w-5 h-5" /> :
-                     acc.type === 'savings' ? <PiggyBank className="w-5 h-5" /> :
-                     <CreditCard className="w-5 h-5" />}
+                      acc.type === 'savings' ? <PiggyBank className="w-5 h-5" /> :
+                        <CreditCard className="w-5 h-5" />}
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-slate-200">{acc.name}</h3>
@@ -181,7 +180,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
       {/* Main Content Grid: Left Transactions | Right Insurance Protection Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Recent Transactions Column */}
         <div className="lg:col-span-2 p-5 rounded-2xl bg-[#131b2e] border border-slate-800 space-y-4">
           <div className="flex items-center justify-between">
@@ -191,18 +190,17 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
               </h2>
               <p className="text-[11px] text-slate-400">Real-time ledger entries across your accounts</p>
             </div>
-            
+
             {/* Filters */}
             <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-[11px]">
               {['All', 'Income', 'Insurance', 'Transfer'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setFilterCategory(cat)}
-                  className={`px-2.5 py-1 rounded-lg font-medium transition ${
-                    filterCategory === cat
+                  className={`px-2.5 py-1 rounded-lg font-medium transition ${filterCategory === cat
                       ? 'bg-blue-600 text-white shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
-                  }`}
+                    }`}
                 >
                   {cat}
                 </button>
@@ -214,11 +212,10 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
             {filteredTransactions.map(tx => (
               <div key={tx.id} className="py-3 flex items-center justify-between gap-3 text-xs hover:bg-slate-800/30 px-2 rounded-xl transition">
                 <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-xl ${
-                    tx.type === 'credit'
+                  <div className={`p-2 rounded-xl ${tx.type === 'credit'
                       ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                       : 'bg-slate-800 text-slate-300'
-                  }`}>
+                    }`}>
                     {tx.type === 'credit' ? <ArrowDownRight className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
                   </div>
                   <div>
@@ -253,7 +250,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
         {/* Insurance Protection & Claims Summary Column */}
         <div className="space-y-5">
-          
+
           {/* Active Policies Widget */}
           <div className="p-5 rounded-2xl bg-[#131b2e] border border-slate-800 space-y-4">
             <div className="flex items-center justify-between">
@@ -280,7 +277,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
                       {p.status}
                     </span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center text-[11px] text-slate-400 mt-2">
                     <span>Coverage: <strong className="text-white">${p.coverage.toLocaleString()}</strong></span>
                     <span><strong className="text-slate-200">${p.monthlyPremium}/mo</strong></span>
@@ -318,9 +315,8 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
                     <span className="text-[10px] text-amber-400 font-bold uppercase">{claim.id}</span>
                     <p className="font-semibold text-slate-200">{claim.claimType}</p>
                   </div>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                    claim.step === 4 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
-                  }`}>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${claim.step === 4 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
+                    }`}>
                     {claim.status}
                   </span>
                 </div>
