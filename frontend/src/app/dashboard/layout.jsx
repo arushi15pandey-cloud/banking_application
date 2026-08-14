@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBanking } from '../../context/BankingContext';
 import Navbar from '../../components/Navbar';
@@ -12,29 +12,25 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
   const { 
     isAuthenticated, 
+    isLoading,
     isInsuranceModalOpen, 
     setIsInsuranceModalOpen,
-    applyForInsurance 
   } = useBanking();
-  
-  const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    // Check if authenticated. If not, redirect to login
-    if (!isAuthenticated) {
+    // Only redirect after the initial JWT check is complete
+    if (!isLoading && !isAuthenticated) {
       router.push('/login');
-    } else {
-      setCheckingAuth(false);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, isLoading, router]);
 
-  // Renders a loading / authenticating state before redirect or compile
-  if (checkingAuth || !isAuthenticated) {
+  // Show loading spinner while verifying session or before redirect
+  if (isLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 font-sans text-slate-800">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-450 p-0.5 flex items-center justify-center animate-bounce shadow">
-            <div className="w-full h-full bg-white rounded-[12px] flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-400 p-0.5 flex items-center justify-center shadow">
+            <div className="w-full h-full bg-white rounded-[12px] flex items-center justify-center animate-bounce">
               <ShieldCheck className="w-8 h-8 text-emerald-500" />
             </div>
           </div>
@@ -67,7 +63,7 @@ export default function DashboardLayout({ children }) {
       <InsuranceApplicationModal
         isOpen={isInsuranceModalOpen}
         onClose={() => setIsInsuranceModalOpen(false)}
-        onPolicyApplied={(newPolicy) => {
+        onPolicyApplied={() => {
           setIsInsuranceModalOpen(false);
           router.push('/dashboard/insurance');
         }}

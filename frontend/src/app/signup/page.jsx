@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBanking } from '../../context/BankingContext';
-import { ShieldCheck, User, Mail, Lock, AlertCircle } from 'lucide-react';
+import { ShieldCheck, User, Mail, Lock, AlertCircle, Loader2 } from 'lucide-react';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -15,6 +15,7 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +34,10 @@ export default function SignupPage() {
       return;
     }
 
+    setErrorMsg('');
+    setIsSubmitting(true);
     const res = await signup(name, email, password);
+    setIsSubmitting(false);
     if (res.success) {
       router.push('/dashboard');
     } else {
@@ -140,9 +144,14 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs transition shadow-sm"
+            disabled={isSubmitting}
+            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold text-xs transition shadow-sm flex items-center justify-center gap-2"
           >
-            Create Account
+            {isSubmitting ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Creating Account...</>
+            ) : (
+              'Create Account'
+            )}
           </button>
         </form>
 

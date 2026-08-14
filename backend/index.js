@@ -12,6 +12,7 @@ const Claim = require('./models/Claim');
 const Notification = require('./models/Notification');
 
 // Routers
+const authRouter = require('./routers/authRouter');
 const userRouter = require('./routers/userRouter');
 const accountRouter = require('./routers/accountRouter');
 const transactionRouter = require('./routers/transactionRouter');
@@ -27,13 +28,19 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+}));
 app.use(express.json());
 
-// Auth Middleware
+// Auth Middleware (JWT)
 const authMiddleware = require('./middleware/auth');
 
-// Routes Mount
+// Public Routes (no auth required)
+app.use('/api/auth', authRouter);
+
+// Protected Routes (JWT required)
 app.use('/api/user', authMiddleware, userRouter);
 app.use('/api/accounts', authMiddleware, accountRouter);
 app.use('/api/transactions', authMiddleware, transactionRouter);
@@ -42,22 +49,25 @@ app.use('/api/policies', authMiddleware, policyRouter);
 app.use('/api/claims', authMiddleware, claimRouter);
 app.use('/api/notifications', authMiddleware, notificationRouter);
 
-// Seed Route to populate the database with the initial frontend context data
+// Seed Route — populates DB with demo data for the classic demo user
 app.get('/api/seed', async (req, res) => {
   try {
-    // Clear existing data
-    await User.deleteMany({});
-    await Account.deleteMany({});
-    await Transaction.deleteMany({});
-    await Policy.deleteMany({});
-    await Claim.deleteMany({});
-    await Notification.deleteMany({});
+    // Clear existing demo user data
+    const existingUser = await User.findOne({ email: 'alex.morgan@apexbank.com' });
+    if (existingUser) {
+      await Account.deleteMany({ userId: existingUser._id });
+      await Transaction.deleteMany({ userId: existingUser._id });
+      await Policy.deleteMany({ userId: existingUser._id });
+      await Claim.deleteMany({ userId: existingUser._id });
+      await Notification.deleteMany({ userId: existingUser._id });
+      await User.deleteOne({ _id: existingUser._id });
+    }
 
-    // 1. Create Demo User
+    // 1. Create Demo User (password will be hashed by pre-save hook)
     const demoUser = await User.create({
       name: 'Alex Morgan',
       email: 'alex.morgan@apexbank.com',
-      password: 'password123', // Hardcoded dummy password
+      password: 'password123',
       accountNumber: '8892-4412-901',
       creditScore: 785,
       riskRating: 'Low Risk',
@@ -266,7 +276,7 @@ app.get('/api/seed', async (req, res) => {
     ];
     await Notification.insertMany(notificationsData);
 
-    res.status(200).json({ success: true, message: 'Database seeded successfully with initial banking data.' });
+    res.status(200).json({ success: true, message: 'Database seeded successfully. Demo credentials: alex.morgan@apexbank.com / password123' });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -278,5 +288,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

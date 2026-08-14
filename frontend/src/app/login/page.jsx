@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useBanking } from '../../context/BankingContext';
-import { ShieldCheck, Lock, Mail, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, Mail, AlertCircle, Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +20,10 @@ export default function LoginPage() {
       setErrorMsg('Please enter email and password.');
       return;
     }
-
+    setErrorMsg('');
+    setIsSubmitting(true);
     const res = await login(email, password);
+    setIsSubmitting(false);
     if (res.success) {
       router.push('/dashboard');
     } else {
@@ -31,24 +34,22 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans selection:bg-blue-500 selection:text-white animate-fade-in">
       <div className="w-full max-w-md bg-white border border-slate-200 rounded-3xl shadow-xl p-6 space-y-6">
-        
+
         {/* Logo and Header */}
         <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-450 p-0.5 flex items-center justify-center shadow-md">
+          <div className="mx-auto w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-400 p-0.5 flex items-center justify-center shadow-md">
             <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
-              <ShieldCheck className="w-7 h-7 text-emerald-505" />
+              <ShieldCheck className="w-7 h-7 text-emerald-500" />
             </div>
           </div>
           <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Sign In to Online Banking System</h1>
-          <p className="text-xs text-slate-500">Access unified banking & direct protection services</p>
+          <p className="text-xs text-slate-500">Access unified banking &amp; direct protection services</p>
         </div>
-
-
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-150 text-rose-600 flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span>{errorMsg}</span>
             </div>
@@ -84,16 +85,21 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs transition shadow-sm"
+            disabled={isSubmitting}
+            className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold text-xs transition shadow-sm flex items-center justify-center gap-2"
           >
-            Authenticate Portal Access
+            {isSubmitting ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Authenticating...</>
+            ) : (
+              'Authenticate Portal Access'
+            )}
           </button>
         </form>
 
         {/* Redirect options */}
         <div className="text-center pt-2 border-t border-slate-100">
           <p className="text-xs text-slate-500">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <button
               onClick={() => router.push('/signup')}
               className="text-blue-600 hover:underline font-bold"
