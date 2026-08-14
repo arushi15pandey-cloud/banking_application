@@ -30,14 +30,17 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// Auth Middleware
+const authMiddleware = require('./middleware/auth');
+
 // Routes Mount
-app.use('/api/user', userRouter);
-app.use('/api/accounts', accountRouter);
-app.use('/api/transactions', transactionRouter);
-app.use('/api/transfer', transferRouter);
-app.use('/api/policies', policyRouter);
-app.use('/api/claims', claimRouter);
-app.use('/api/notifications', notificationRouter);
+app.use('/api/user', authMiddleware, userRouter);
+app.use('/api/accounts', authMiddleware, accountRouter);
+app.use('/api/transactions', authMiddleware, transactionRouter);
+app.use('/api/transfer', authMiddleware, transferRouter);
+app.use('/api/policies', authMiddleware, policyRouter);
+app.use('/api/claims', authMiddleware, claimRouter);
+app.use('/api/notifications', authMiddleware, notificationRouter);
 
 // Seed Route to populate the database with the initial frontend context data
 app.get('/api/seed', async (req, res) => {

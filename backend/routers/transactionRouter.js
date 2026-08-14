@@ -6,12 +6,7 @@ const User = require('../models/User');
 // GET /api/transactions — returns all transactions, optional ?category= filter
 router.get('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found. Run /api/seed first.' });
-    }
-
-    const filter = { userId: user._id };
+    const filter = { userId: req.user._id };
     if (req.query.category && req.query.category !== 'All') {
       filter.category = req.query.category;
     }
@@ -39,18 +34,13 @@ router.get('/', async (req, res) => {
 // POST /api/transactions — create a new transaction entry
 router.post('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
-    }
-
     const { title, category, amount, type, date, account, status } = req.body;
     if (!title || !amount || !type || !account) {
       return res.status(400).json({ success: false, message: 'title, amount, type, and account are required.' });
     }
 
     const tx = await Transaction.create({
-      userId: user._id,
+      userId: req.user._id,
       title,
       category: category || 'Other',
       amount: parseFloat(amount),

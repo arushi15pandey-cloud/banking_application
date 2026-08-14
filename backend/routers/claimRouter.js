@@ -5,15 +5,10 @@ const Policy = require('../models/Policy');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
 
-// GET /api/claims — returns all claims for the demo user
+// GET /api/claims — returns all claims for the user
 router.get('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found. Run /api/seed first.' });
-    }
-
-    const claims = await Claim.find({ userId: user._id }).sort({ createdAt: -1 });
+    const claims = await Claim.find({ userId: req.user._id }).sort({ createdAt: -1 });
 
     // Map to frontend-compatible shape (use claimId as id)
     const mapped = claims.map((c) => ({
@@ -48,11 +43,6 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
-    }
-
     const { policyId, claimType, incidentDate, amount, description } = req.body;
     if (!policyId || !claimType || !incidentDate || !amount || !description) {
       return res.status(400).json({
@@ -67,7 +57,7 @@ router.post('/', async (req, res) => {
     }
 
     // Look up policy title
-    const policy = await Policy.findOne({ policyId, userId: user._id });
+    const policy = await Policy.findOne({ policyId, userId: req.user._id });
     if (!policy) {
       return res.status(404).json({ success: false, message: 'Policy not found for this user.' });
     }
@@ -76,7 +66,7 @@ router.post('/', async (req, res) => {
     const claimId = `CLM-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const newClaim = await Claim.create({
-      userId: user._id,
+      userId: req.user._id,
       claimId,
       policyId,
       policyTitle: policy.title,
@@ -92,7 +82,7 @@ router.post('/', async (req, res) => {
 
     // Create notification
     await Notification.create({
-      userId: user._id,
+      userId: req.user._id,
       title: 'Claim Submitted Successfully',
       text: `Claim #${claimId} of $${claimAmount.toFixed(2)} is received & assigned to adjuster.`,
       time: 'Just now',

@@ -3,15 +3,10 @@ const router = express.Router();
 const Account = require('../models/Account');
 const User = require('../models/User');
 
-// GET /api/accounts — returns all accounts for the demo user
+// GET /api/accounts — returns all accounts for the user
 router.get('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found. Run /api/seed first.' });
-    }
-
-    const accounts = await Account.find({ userId: user._id }).sort({ createdAt: 1 });
+    const accounts = await Account.find({ userId: req.user._id }).sort({ createdAt: 1 });
 
     // Map to frontend-compatible shape (use accountId as id)
     const mapped = accounts.map((a) => ({

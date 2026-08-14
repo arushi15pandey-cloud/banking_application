@@ -16,7 +16,7 @@ export default function SignupPage() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password || !confirmPassword) {
       setErrorMsg('Please fill in all fields.');
@@ -33,7 +33,7 @@ export default function SignupPage() {
       return;
     }
 
-    const res = signup(name, email, password);
+    const res = await signup(name, email, password);
     if (res.success) {
       router.push('/dashboard');
     } else {

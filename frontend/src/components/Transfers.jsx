@@ -73,8 +73,8 @@ export default function Transfers({ isOpenModal, onCloseModal }) {
     }
 
     // Process transfer
-    setTimeout(() => {
-      const res = transferFunds({
+    setTimeout(async () => {
+      const res = await transferFunds({
         fromAccId,
         toAccId: transferType === 'internal' ? toAccId : null,
         recipientName: transferType === 'external' ? recipientName : null,

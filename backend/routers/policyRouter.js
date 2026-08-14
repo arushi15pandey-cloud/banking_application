@@ -9,12 +9,7 @@ const User = require('../models/User');
 // GET /api/policies — returns all active insurance policies
 router.get('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found. Run /api/seed first.' });
-    }
-
-    const policies = await Policy.find({ userId: user._id }).sort({ createdAt: -1 });
+    const policies = await Policy.find({ userId: req.user._id }).sort({ createdAt: -1 });
 
     // Map to frontend-compatible shape (use policyId as id)
     const mapped = policies.map((p) => ({
@@ -51,11 +46,6 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
   try {
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found.' });
-    }
-
     const { type, title, coverage, monthlyPremium, deductible, insuredSubject } = req.body;
     if (!type || !title || !coverage || !monthlyPremium || !insuredSubject) {
       return res.status(400).json({
@@ -77,10 +67,10 @@ router.post('/', async (req, res) => {
     const iconMap = { Health: 'HeartPulse', Auto: 'Car', Home: 'Home', Life: 'ShieldCheck' };
     const colorMap = { Health: 'emerald', Auto: 'blue', Home: 'purple', Life: 'amber' };
 
-    // Debit first month's premium from primary checking account (chk-1)
-    const checkingAcc = await Account.findOne({ accountId: 'chk-1', userId: user._id });
+    // Debit first month's premium from checking account
+    const checkingAcc = await Account.findOne({ type: 'checking', userId: req.user._id });
     if (!checkingAcc) {
-      return res.status(404).json({ success: false, message: 'Primary checking account not found.' });
+      return res.status(404).json({ success: false, message: 'Checking account not found.' });
     }
     if (checkingAcc.balance < premium) {
       return res.status(400).json({
@@ -97,7 +87,7 @@ router.post('/', async (req, res) => {
       .split('T')[0];
 
     const newPolicy = await Policy.create({
-      userId: user._id,
+      userId: req.user._id,
       policyId,
       type,
       title,
@@ -114,7 +104,7 @@ router.post('/', async (req, res) => {
 
     // Log transaction for initial premium debit
     await Transaction.create({
-      userId: user._id,
+      userId: req.user._id,
       title: `Initial Premium: ${newPolicy.title}`,
       category: 'Insurance',
       amount: premium,
@@ -126,7 +116,7 @@ router.post('/', async (req, res) => {
 
     // Create notification
     await Notification.create({
-      userId: user._id,
+      userId: req.user._id,
       title: 'New Insurance Policy Issued! 🎉',
       text: `Policy #${policyId} for ${newPolicy.title} is now active. Auto-debit bound.`,
       time: 'Just now',

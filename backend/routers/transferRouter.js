@@ -25,13 +25,8 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid transfer amount.' });
     }
 
-    const user = await User.findOne();
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found. Run /api/seed first.' });
-    }
-
     // Load source account
-    const sourceAcc = await Account.findOne({ accountId: fromAccId, userId: user._id });
+    const sourceAcc = await Account.findOne({ accountId: fromAccId, userId: req.user._id });
     if (!sourceAcc) {
       return res.status(404).json({ success: false, message: 'Source account not found.' });
     }
@@ -60,7 +55,7 @@ router.post('/', async (req, res) => {
     // Credit destination account (internal only)
     let destName = recipientName || recipientAccount || 'External Payee';
     if (toAccId) {
-      const destAcc = await Account.findOne({ accountId: toAccId, userId: user._id });
+      const destAcc = await Account.findOne({ accountId: toAccId, userId: req.user._id });
       if (destAcc) {
         destName = destAcc.name;
         if (destAcc.type === 'credit') {
@@ -75,7 +70,7 @@ router.post('/', async (req, res) => {
     // Create transaction log entry
     const txTitle = `Transfer to ${destName}${note ? ` (${note})` : ''}`;
     const newTx = await Transaction.create({
-      userId: user._id,
+      userId: req.user._id,
       title: txTitle,
       category: 'Transfer',
       amount: numAmount,
@@ -87,7 +82,7 @@ router.post('/', async (req, res) => {
 
     // Create notification
     const newNotif = await Notification.create({
-      userId: user._id,
+      userId: req.user._id,
       title: 'Money Transferred',
       text: `Successfully sent ${sourceAcc.currency}${numAmount.toFixed(2)} to ${destName}.`,
       time: 'Just now',

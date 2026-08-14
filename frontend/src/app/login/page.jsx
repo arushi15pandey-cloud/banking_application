@@ -13,14 +13,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setErrorMsg('Please enter email and password.');
       return;
     }
 
-    const res = login(email, password);
+    const res = await login(email, password);
     if (res.success) {
       router.push('/dashboard');
     } else {
