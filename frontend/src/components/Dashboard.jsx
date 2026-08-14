@@ -2,16 +2,16 @@
 
 import React, { useState } from 'react';
 import { useBanking } from '../context/BankingContext';
-import { 
-  Landmark, 
-  PiggyBank, 
-  CreditCard, 
-  ArrowUpRight, 
-  ArrowDownRight, 
-  ShieldCheck, 
-  TrendingUp, 
-  Plus, 
-  FileText, 
+import {
+  Landmark,
+  PiggyBank,
+  CreditCard,
+  ArrowUpRight,
+  ArrowDownRight,
+  ShieldCheck,
+  TrendingUp,
+  Plus,
+  FileText,
   ChevronRight,
   HeartPulse,
   Car,
@@ -45,7 +45,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
   return (
     <div className="space-y-6 animate-fade-in">
-      
+
       {/* Welcome Hero Banner */}
       <div className="relative rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 overflow-hidden shadow-sm">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -101,8 +101,8 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
                     'bg-purple-50 text-purple-600 border border-purple-100'
                   }`}>
                     {acc.type === 'checking' ? <Landmark className="w-5 h-5" /> :
-                     acc.type === 'savings' ? <PiggyBank className="w-5 h-5" /> :
-                     <CreditCard className="w-5 h-5" />}
+                      acc.type === 'savings' ? <PiggyBank className="w-5 h-5" /> :
+                        <CreditCard className="w-5 h-5" />}
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-slate-800">{acc.name}</h3>
@@ -181,7 +181,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
       {/* Main Content Grid: Left Transactions | Right Insurance Protection Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Recent Transactions Column */}
         <div className="lg:col-span-2 p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
@@ -191,7 +191,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
               </h2>
               <p className="text-[11px] text-slate-500">Real-time ledger entries across your accounts</p>
             </div>
-            
+
             {/* Filters */}
             <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200 text-[11px]">
               {['All', 'Income', 'Insurance', 'Transfer'].map(cat => (
@@ -253,7 +253,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
         {/* Insurance Protection & Claims Summary Column */}
         <div className="space-y-5">
-          
+
           {/* Active Policies Widget */}
           <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-sm">
             <div className="flex items-center justify-between">
