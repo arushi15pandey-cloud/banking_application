@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useBanking } from '../context/BankingContext';
 import { 
   ShieldCheck, 
@@ -15,10 +16,11 @@ import {
   CreditCard
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, onOpenTransfer, onOpenInsuranceModal }) {
-  const { user, notifications, markAllNotificationsRead } = useBanking();
+export default function Navbar() {
+  const { user, notifications, markAllNotificationsRead, logout, setIsInsuranceModalOpen, isAuthenticated } = useBanking();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const router = useRouter();
   const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
@@ -26,7 +28,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenTransfer, onOpen
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         
         {/* Brand Logo & Tagline */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push(isAuthenticated ? '/dashboard' : '/')}>
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-emerald-400 p-0.5 flex items-center justify-center shadow shadow-blue-500/10">
             <div className="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
               <ShieldCheck className="w-6 h-6 text-emerald-500" />
@@ -59,14 +61,14 @@ export default function Navbar({ activeTab, setActiveTab, onOpenTransfer, onOpen
           {/* Quick CTA Buttons */}
           <div className="hidden sm:flex items-center gap-2">
             <button
-              onClick={onOpenTransfer}
+              onClick={() => router.push('/dashboard/transfers')}
               className="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition flex items-center gap-1.5"
             >
               <CreditCard className="w-3.5 h-3.5 text-blue-500" />
               Transfer
             </button>
             <button
-              onClick={onOpenInsuranceModal}
+              onClick={() => setIsInsuranceModalOpen(true)}
               className="text-xs font-semibold px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow transition flex items-center gap-1.5"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -172,7 +174,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenTransfer, onOpen
                 
                 <button
                   onClick={() => {
-                    setActiveTab('dashboard');
+                    router.push('/dashboard/profile');
                     setShowUserMenu(false);
                   }}
                   className="w-full text-left px-3 py-2 rounded-lg text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-2 transition"
@@ -182,7 +184,7 @@ export default function Navbar({ activeTab, setActiveTab, onOpenTransfer, onOpen
                 </button>
                 <button
                   onClick={() => {
-                    setActiveTab('insurance');
+                    router.push('/dashboard/insurance');
                     setShowUserMenu(false);
                   }}
                   className="w-full text-left px-3 py-2 rounded-lg text-xs text-slate-600 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-2 transition"
@@ -194,7 +196,11 @@ export default function Navbar({ activeTab, setActiveTab, onOpenTransfer, onOpen
                 <div className="my-1 border-t border-slate-200/80"></div>
                 
                 <button
-                  onClick={() => setShowUserMenu(false)}
+                  onClick={() => {
+                    logout();
+                    setShowUserMenu(false);
+                    router.push('/');
+                  }}
                   className="w-full text-left px-3 py-2 rounded-lg text-xs text-rose-500 hover:bg-rose-50 flex items-center gap-2 transition"
                 >
                   <LogOut className="w-3.5 h-3.5" />

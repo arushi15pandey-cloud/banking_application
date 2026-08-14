@@ -160,7 +160,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={onOpenTransfer}
-            className="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm"
+            className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm"
           >
             <ArrowUpRight className="w-4 h-4" /> Send / Transfer
           </button>
@@ -200,7 +200,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
                   onClick={() => setFilterCategory(cat)}
                   className={`px-2.5 py-1 rounded-lg font-medium transition ${
                     filterCategory === cat
-                      ? 'bg-slate-900 text-white shadow-sm'
+                      ? 'bg-blue-600 text-white shadow-sm'
                       : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
@@ -291,7 +291,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
 
             <button
               onClick={onOpenInsuranceModal}
-              className="w-full py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition shadow-sm flex items-center justify-center gap-1.5"
+              className="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition shadow-sm flex items-center justify-center gap-1.5"
             >
               <Plus className="w-3.5 h-3.5" /> Apply New Policy
             </button>

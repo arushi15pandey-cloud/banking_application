@@ -186,6 +186,48 @@ export function BankingProvider({ children }) {
   const [claims, setClaims] = useState(initialClaims);
   const [notifications, setNotifications] = useState(initialNotifications);
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isInsuranceModalOpen, setIsInsuranceModalOpen] = useState(false);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+
+  // Auth Operations
+  const login = (email, password) => {
+    if (!email) return { success: false, message: 'Email is required.' };
+    setIsAuthenticated(true);
+    if (email !== user.email) {
+      setUser(prev => ({
+        ...prev,
+        email: email,
+        name: email.split('@')[0].split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
+      }));
+    }
+    return { success: true };
+  };
+
+  const signup = (name, email, password) => {
+    if (!name || !email) return { success: false, message: 'Name and email are required.' };
+    setUser({
+      name: name,
+      email: email,
+      accountNumber: '1092-' + Math.floor(1000 + Math.random() * 9000) + '-552',
+      creditScore: 715,
+      riskRating: 'Low Risk',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'
+    });
+    setIsAuthenticated(true);
+    return { success: true };
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+  };
+
+  const updateProfile = (name, email) => {
+    if (!name || !email) return { success: false, message: 'Name and email are required.' };
+    setUser(prev => ({ ...prev, name, email }));
+    return { success: true };
+  };
+
   // Transfer funds function
   const transferFunds = ({ fromAccId, toAccId, recipientName, recipientAccount, amount, note }) => {
     const numAmount = parseFloat(amount);
@@ -364,7 +406,16 @@ export function BankingProvider({ children }) {
       transferFunds,
       applyForInsurance,
       submitClaim,
-      markAllNotificationsRead
+      markAllNotificationsRead,
+      isAuthenticated,
+      isInsuranceModalOpen,
+      setIsInsuranceModalOpen,
+      isClaimModalOpen,
+      setIsClaimModalOpen,
+      login,
+      signup,
+      logout,
+      updateProfile
     }}>
       {children}
     </BankingContext.Provider>

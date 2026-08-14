@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useBanking } from '../context/BankingContext';
 import { 
   LayoutDashboard, 
   ArrowLeftRight, 
@@ -12,13 +14,17 @@ import {
   HelpCircle
 } from 'lucide-react';
 
-export default function Sidebar({ activeTab, setActiveTab, onOpenInsuranceModal }) {
+export default function Sidebar() {
+  const { setIsInsuranceModalOpen } = useBanking();
+  const pathname = usePathname();
+  const router = useRouter();
+
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, badge: null },
-    { id: 'transfers', label: 'Transfers & Accounts', icon: ArrowLeftRight, badge: null },
-    { id: 'insurance', label: 'Insurance Portal', icon: Shield, badge: 'Active' },
-    { id: 'claims', label: 'Claims & Tracking', icon: FileText, badge: '2 Pending' },
-    { id: 'analytics', label: 'Financial Health', icon: TrendingUp, badge: null }
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', badge: null },
+    { id: 'transfers', label: 'Transfers & Accounts', icon: ArrowLeftRight, path: '/dashboard/transfers', badge: null },
+    { id: 'insurance', label: 'Insurance Portal', icon: Shield, path: '/dashboard/insurance', badge: 'Active' },
+    { id: 'claims', label: 'Claims & Tracking', icon: FileText, path: '/dashboard/claims', badge: '2 Pending' },
+    { id: 'analytics', label: 'Financial Health', icon: TrendingUp, path: '/dashboard/analytics', badge: null }
   ];
 
   return (
@@ -31,12 +37,12 @@ export default function Sidebar({ activeTab, setActiveTab, onOpenInsuranceModal 
           <nav className="space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTab === item.id;
+              const isActive = pathname === item.path;
 
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveTab(item.id)}
+                  onClick={() => router.push(item.path)}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition ${
                     isActive
                       ? 'bg-blue-50 text-blue-600 border border-blue-100 shadow-sm'
@@ -59,7 +65,7 @@ export default function Sidebar({ activeTab, setActiveTab, onOpenInsuranceModal 
             })}
           </nav>
         </div>
-
+ 
         {/* Quick Action Card */}
         <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 relative overflow-hidden">
           <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-blue-500/5 rounded-full blur-xl pointer-events-none"></div>
@@ -68,12 +74,12 @@ export default function Sidebar({ activeTab, setActiveTab, onOpenInsuranceModal 
             Instant Protection
           </div>
           <p className="text-xs text-slate-800 font-bold mb-1">Apply for Coverage</p>
-          <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
+          <p className="text-[11px] text-slate-550 leading-relaxed mb-3">
             Get instant quotes for Health, Auto, Home & Life with automatic direct-debit integration.
           </p>
           <button
-            onClick={onOpenInsuranceModal}
-            className="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-sm"
+            onClick={() => setIsInsuranceModalOpen(true)}
+            className="w-full py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition flex items-center justify-center gap-1.5 shadow-sm"
           >
             <PlusCircle className="w-3.5 h-3.5" />
             Start Application
