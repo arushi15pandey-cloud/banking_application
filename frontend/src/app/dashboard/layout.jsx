@@ -75,7 +75,7 @@ export default function DashboardLayout({ children }) {
 
       {/* Footer Branding Bar */}
       <footer className="w-full border-t border-slate-200 bg-white py-4 px-6 text-center text-xs text-slate-400">
-        <p>© 2026 Apex Bank & Shield Insurance Services Inc. Member FDIC & Equal Housing Lender. All rights reserved.</p>
+        <p>© 2026 Online Banking System. Member FDIC &amp; Equal Housing Lender. All rights reserved.</p>
       </footer>
     </div>
   );

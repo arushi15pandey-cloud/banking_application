@@ -9,8 +9,8 @@ export default function LoginPage() {
   const router = useRouter();
   const { login } = useBanking();
 
-  const [email, setEmail] = useState('alex.morgan@apexbank.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = (e) => {
@@ -39,15 +39,11 @@ export default function LoginPage() {
               <ShieldCheck className="w-7 h-7 text-emerald-505" />
             </div>
           </div>
-          <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Sign In to Apex Shield</h1>
+          <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Sign In to Online Banking System</h1>
           <p className="text-xs text-slate-500">Access unified banking & direct protection services</p>
         </div>
 
-        {/* Demo Credentials Alert Info */}
-        <div className="p-3.5 rounded-2xl bg-blue-50 border border-blue-150 text-[11px] text-slate-600 leading-relaxed">
-          <span className="font-bold text-blue-700 block mb-0.5">💡 Demo Portal Credentials</span>
-          Use prefilled credentials below or type any email to simulate a personalized session.
-        </div>
+
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">

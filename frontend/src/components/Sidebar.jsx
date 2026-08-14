@@ -94,7 +94,7 @@ export default function Sidebar() {
           <HelpCircle className="w-4 h-4 text-slate-500" />
           <div>
             <p className="text-slate-700 font-medium text-[11px]">24/7 Priority Banking Concierge</p>
-            <p className="text-[10px] text-slate-500">1-800-APEX-SHIELD</p>
+            <p className="text-[10px] text-slate-500">1-800-OBS-BANK</p>
           </div>
         </div>
       </div>

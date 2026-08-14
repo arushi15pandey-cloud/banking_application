@@ -6,13 +6,10 @@ import { useBanking } from '../context/BankingContext';
 import { 
   ShieldCheck, 
   Bell, 
-  Search, 
-  CheckCircle, 
   Lock, 
   User, 
   LogOut,
   ChevronDown,
-  X,
   CreditCard
 } from 'lucide-react';
 
@@ -36,23 +33,10 @@ export default function Navbar() {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-lg tracking-tight text-slate-900">APEX</span>
-              <span className="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200/60">
-                Shield
-              </span>
+              <span className="font-bold text-lg tracking-tight text-slate-900">Online Banking System</span>
             </div>
-            <p className="text-[10px] text-slate-500 -mt-0.5 hidden sm:block">Unified Wealth & Protection Portal</p>
+            <p className="text-[10px] text-slate-500 -mt-0.5 hidden sm:block">Unified Wealth &amp; Protection Portal</p>
           </div>
-        </div>
-
-        {/* Global Search Bar */}
-        <div className="hidden md:flex flex-1 max-w-md items-center relative">
-          <Search className="w-4 h-4 absolute left-3 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search accounts, transfers, insurance policies or claims..."
-            className="w-full pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-500/60 focus:ring-1 focus:ring-blue-500/60 transition"
-          />
         </div>
 
         {/* Right Header Actions */}

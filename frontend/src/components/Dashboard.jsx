@@ -55,7 +55,7 @@ export default function Dashboard({ setActiveTab, onOpenTransfer, onOpenInsuranc
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-blue-600" /> Apex Preferred Banking
+                <Sparkles className="w-3 h-3 text-blue-600" /> Preferred Banking
               </span>
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
                 🛡️ Fully Insured Account

@@ -133,8 +133,8 @@ export default function SignupPage() {
             />
             <label htmlFor="agree" className="text-slate-500 text-[11px] leading-relaxed">
               I certify that I am at least 18 years old, and agree to the{' '}
-              <span className="text-blue-600 cursor-pointer hover:underline">Apex Terms of Service</span> &{' '}
-              <span className="text-blue-600 cursor-pointer hover:underline">Shield Privacy Policy</span>.
+              <span className="text-blue-600 cursor-pointer hover:underline">Terms of Service</span> &amp;{' '}
+              <span className="text-blue-600 cursor-pointer hover:underline">Privacy Policy</span>.
             </label>
           </div>
 

@@ -4,222 +4,142 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const BankingContext = createContext();
 
-const initialAccounts = [
-  {
-    id: 'chk-1',
-    name: 'Premier Checking',
-    accountNumber: '•••• 8892',
-    type: 'checking',
-    balance: 14850.50,
-    currency: '$',
-    icon: 'Landmark',
-  },
-  {
-    id: 'sav-1',
-    name: 'High-Yield Growth Savings',
-    accountNumber: '•••• 4412',
-    type: 'savings',
-    balance: 42300.00,
-    apy: '4.85%',
-    currency: '$',
-    icon: 'PiggyBank',
-  },
-  {
-    id: 'crd-1',
-    name: 'Apex Sapphire Reserve',
-    accountNumber: '•••• 1928',
-    type: 'credit',
-    balance: 2430.20,
-    creditLimit: 20000.00,
-    dueDate: 'Aug 12, 2026',
-    currency: '$',
-    icon: 'CreditCard',
-  }
-];
-
-const initialTransactions = [
-  {
-    id: 'tx-101',
-    title: 'Salary Deposit - Horizon Tech Inc',
-    category: 'Income',
-    amount: 6500.00,
-    type: 'credit',
-    date: '2026-07-25',
-    account: 'Premier Checking',
-    status: 'Completed'
-  },
-  {
-    id: 'tx-102',
-    title: 'Apex Shield Health Insurance Premium',
-    category: 'Insurance',
-    amount: 140.00,
-    type: 'debit',
-    date: '2026-07-15',
-    account: 'Premier Checking',
-    status: 'Completed'
-  },
-  {
-    id: 'tx-103',
-    title: 'Whole Foods Market',
-    category: 'Shopping',
-    amount: 184.30,
-    type: 'debit',
-    date: '2026-07-24',
-    account: 'Apex Sapphire Reserve',
-    status: 'Completed'
-  },
-  {
-    id: 'tx-104',
-    title: 'Tesla Supercharger',
-    category: 'Transport',
-    amount: 28.50,
-    type: 'debit',
-    date: '2026-07-23',
-    account: 'Apex Sapphire Reserve',
-    status: 'Completed'
-  },
-  {
-    id: 'tx-105',
-    title: 'Transfer to High-Yield Savings',
-    category: 'Transfer',
-    amount: 1500.00,
-    type: 'debit',
-    date: '2026-07-20',
-    account: 'Premier Checking',
-    status: 'Completed'
-  }
-];
-
-const initialPolicies = [
-  {
-    id: 'POL-HLT-9921',
-    type: 'Health',
-    title: 'Apex Comprehensive Health Shield',
-    coverage: 250000,
-    monthlyPremium: 140.00,
-    nextPaymentDate: '2026-08-15',
-    status: 'Active',
-    deductible: 500,
-    insuredSubject: 'Alex Morgan + 1 Dependent',
-    autoDebitAccount: 'Premier Checking (•••• 8892)',
-    icon: 'HeartPulse',
-    color: 'emerald'
-  },
-  {
-    id: 'POL-AUT-4410',
-    type: 'Auto',
-    title: 'Zero-Dep Auto Protection',
-    coverage: 55000,
-    monthlyPremium: 85.00,
-    nextPaymentDate: '2026-08-20',
-    status: 'Active',
-    deductible: 250,
-    insuredSubject: '2024 Tesla Model Y (VIN: 5YJSA1E28P...)',
-    autoDebitAccount: 'Premier Checking (•••• 8892)',
-    icon: 'Car',
-    color: 'blue'
-  },
-  {
-    id: 'POL-HOM-1102',
-    type: 'Home',
-    title: 'Estate & Property Guard',
-    coverage: 650000,
-    monthlyPremium: 195.00,
-    nextPaymentDate: '2026-09-01',
-    status: 'Active',
-    deductible: 1000,
-    insuredSubject: '742 Evergreen Terrace, Seattle WA',
-    autoDebitAccount: 'Premier Checking (•••• 8892)',
-    icon: 'Home',
-    color: 'purple'
-  }
-];
-
-const initialClaims = [
-  {
-    id: 'CLM-8821',
-    policyId: 'POL-AUT-4410',
-    policyTitle: 'Zero-Dep Auto Protection',
-    claimType: 'Windshield Crack Repair',
-    incidentDate: '2026-07-10',
-    amount: 450.00,
-    status: 'Payout Disbursed',
-    step: 4, // 1: Submitted, 2: Under Assessment, 3: Approved, 4: Disbursed
-    description: 'Road debris cracked front windshield on Interstate 90.',
-    payoutAccount: 'Premier Checking (•••• 8892)',
-    submittedDate: '2026-07-11'
-  },
-  {
-    id: 'CLM-9014',
-    policyId: 'POL-HLT-9921',
-    policyTitle: 'Apex Comprehensive Health Shield',
-    claimType: 'Outpatient Specialist & X-Ray',
-    incidentDate: '2026-07-21',
-    amount: 620.00,
-    status: 'Under Assessment',
-    step: 2,
-    description: 'Orthopedic consultation and right wrist X-ray imaging.',
-    payoutAccount: 'Premier Checking (•••• 8892)',
-    submittedDate: '2026-07-22'
-  }
-];
-
-const initialNotifications = [
-  { id: 1, title: 'Auto-Debit Executed', text: 'Health Insurance Premium $140.00 debited from Premier Checking.', time: '2 hours ago', unread: true },
-  { id: 2, title: 'Claim Status Updated', text: 'Claim #CLM-9014 is currently under assessment by medical auditor.', time: '1 day ago', unread: true },
-  { id: 3, title: 'Security Alert', text: 'New login detected from Chrome Windows 11.', time: '3 days ago', unread: false }
-];
-
-export function BankingProvider({ children }) {
-  const [user, setUser] = useState({
-    name: 'Alex Morgan',
-    email: 'alex.morgan@apexbank.com',
-    accountNumber: '8892-4412-901',
-    creditScore: 785,
+// New user session — starts clean with 0 balances and no dummy transactions
+const createInitialData = (name, email) => ({
+  user: {
+    name,
+    email,
+    accountNumber: '1092-' + Math.floor(1000 + Math.random() * 9000) + '-552',
+    creditScore: 750,
     riskRating: 'Low Risk',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'
-  });
+  },
+  accounts: [
+    {
+      id: 'chk-1',
+      name: 'Premier Checking',
+      accountNumber: '•••• 8892',
+      type: 'checking',
+      balance: 0.00,
+      currency: '$',
+      icon: 'Landmark',
+    },
+    {
+      id: 'sav-1',
+      name: 'High-Yield Growth Savings',
+      accountNumber: '•••• 4412',
+      type: 'savings',
+      balance: 0.00,
+      apy: '4.85%',
+      currency: '$',
+      icon: 'PiggyBank',
+    },
+    {
+      id: 'crd-1',
+      name: 'Apex Sapphire Reserve',
+      accountNumber: '•••• 1928',
+      type: 'credit',
+      balance: 0.00,
+      creditLimit: 20000.00,
+      dueDate: 'Aug 12, 2026',
+      currency: '$',
+      icon: 'CreditCard',
+    }
+  ],
+  transactions: [],
+  policies: [],
+  claims: [],
+  notifications: []
+});
 
-  const [accounts, setAccounts] = useState(initialAccounts);
-  const [transactions, setTransactions] = useState(initialTransactions);
-  const [policies, setPolicies] = useState(initialPolicies);
-  const [claims, setClaims] = useState(initialClaims);
-  const [notifications, setNotifications] = useState(initialNotifications);
+// localStorage helpers — data is keyed per user email
+const userDataKey = (email) => `apex_bank_data_${email.toLowerCase()}`;
+
+const saveUserData = (email, data) => {
+  try {
+    localStorage.setItem(userDataKey(email), JSON.stringify(data));
+  } catch (e) {
+    // localStorage unavailable (SSR or storage full) — fail silently
+  }
+};
+
+const loadUserData = (email) => {
+  try {
+    const raw = localStorage.getItem(userDataKey(email));
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+};
+
+export function BankingProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [policies, setPolicies] = useState([]);
+  const [claims, setClaims] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInsuranceModalOpen, setIsInsuranceModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
 
+  // Auto-save all user-specific data to localStorage whenever state changes
+  useEffect(() => {
+    if (isAuthenticated && user?.email) {
+      saveUserData(user.email, { user, accounts, transactions, policies, claims, notifications });
+    }
+  }, [isAuthenticated, user, accounts, transactions, policies, claims, notifications]);
+
+  // Load an existing user's data from localStorage, or create fresh data for a new user
+  const loadOrCreateUserSession = (name, email) => {
+    const existing = loadUserData(email);
+    if (existing) {
+      setUser(existing.user);
+      setAccounts(existing.accounts);
+      setTransactions(existing.transactions);
+      setPolicies(existing.policies);
+      setClaims(existing.claims);
+      setNotifications(existing.notifications);
+    } else {
+      const fresh = createInitialData(name, email);
+      setUser({ ...fresh.user, name, email });
+      setAccounts(fresh.accounts);
+      setTransactions(fresh.transactions);
+      setPolicies(fresh.policies);
+      setClaims(fresh.claims);
+      setNotifications(fresh.notifications);
+    }
+  };
+
   // Auth Operations
   const login = (email, password) => {
     if (!email) return { success: false, message: 'Email is required.' };
+
+    const existing = loadUserData(email);
+    const displayName = existing?.user?.name
+      || email.split('@')[0].split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+
+    loadOrCreateUserSession(displayName, email);
     setIsAuthenticated(true);
-    if (email !== user.email) {
-      setUser(prev => ({
-        ...prev,
-        email: email,
-        name: email.split('@')[0].split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
-      }));
-    }
     return { success: true };
   };
 
   const signup = (name, email, password) => {
     if (!name || !email) return { success: false, message: 'Name and email are required.' };
-    setUser({
-      name: name,
-      email: email,
-      accountNumber: '1092-' + Math.floor(1000 + Math.random() * 9000) + '-552',
-      creditScore: 715,
-      riskRating: 'Low Risk',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'
-    });
+    loadOrCreateUserSession(name, email);
     setIsAuthenticated(true);
     return { success: true };
   };
 
   const logout = () => {
     setIsAuthenticated(false);
+    setUser(null);
+    setAccounts([]);
+    setTransactions([]);
+    setPolicies([]);
+    setClaims([]);
+    setNotifications([]);
   };
 
   const updateProfile = (name, email) => {

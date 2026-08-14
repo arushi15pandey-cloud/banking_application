@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Apex Bank & Shield Insurance - Unified Financial Portal",
+  title: "Online Banking System",
   description: "Modern banking application with integrated insurance policies, instant transfers, real-time quotes, and claims tracking.",
 };
 

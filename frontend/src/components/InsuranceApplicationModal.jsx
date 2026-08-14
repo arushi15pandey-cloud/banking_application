@@ -154,7 +154,7 @@ export default function InsuranceApplicationModal({ isOpen, onClose, onPolicyApp
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">Apex Shield Insurance Application</h2>
+              <h2 className="text-base font-bold text-slate-900">Insurance Application</h2>
               <p className="text-xs text-slate-555">Step {step} of 5 — Instant Policy Binding</p>
             </div>
           </div>
@@ -488,7 +488,7 @@ export default function InsuranceApplicationModal({ isOpen, onClose, onPolicyApp
              <div className="space-y-5 animate-fade-in">
                <div>
                  <h3 className="text-sm font-bold text-slate-900 mb-1">Direct-Debit Account Binding</h3>
-                 <p className="text-xs text-slate-550">Link your Apex account for automatic premium debits & instant policy activation.</p>
+                 <p className="text-xs text-slate-550">Link your account for automatic premium debits &amp; instant policy activation.</p>
                </div>
 
                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">

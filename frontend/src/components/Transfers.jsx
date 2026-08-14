@@ -32,11 +32,7 @@ export default function Transfers({ isOpenModal, onCloseModal }) {
   
   const [statusState, setStatusState] = useState({ loading: false, error: '', receipt: null });
 
-  const frequentPayees = [
-    { name: 'Sarah Jenkins', account: '•••• 7712', bank: 'Chase Bank', avatar: 'SJ' },
-    { name: 'David Miller', account: '•••• 9941', bank: 'Wells Fargo', avatar: 'DM' },
-    { name: 'Elena Rostova', account: '•••• 3309', bank: 'Apex Bank', avatar: 'ER' }
-  ];
+  const frequentPayees = [];
 
   const sourceAccount = accounts.find(a => a.id === fromAccId);
   const availableBalance = sourceAccount ? sourceAccount.balance : 0;
@@ -58,6 +54,11 @@ export default function Transfers({ isOpenModal, onCloseModal }) {
     const numAmount = parseFloat(amount);
     if (isNaN(numAmount) || numAmount <= 0) {
       setStatusState({ loading: false, error: 'Please enter a valid transfer amount.', receipt: null });
+      return;
+    }
+
+    if (!sourceAccount) {
+      setStatusState({ loading: false, error: 'Source account not found.', receipt: null });
       return;
     }
 
@@ -123,7 +124,7 @@ export default function Transfers({ isOpenModal, onCloseModal }) {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Transfers & Money Movements</h1>
           <p className="text-xs text-slate-500 mt-1">
-            Move money seamlessly between your Apex checking/savings or send wire transfers to external payees.
+            Move money seamlessly between your checking/savings or send wire transfers to external payees.
           </p>
         </div>
 
@@ -304,38 +305,39 @@ export default function Transfers({ isOpenModal, onCloseModal }) {
         {/* Saved Payees & Security Column */}
         <div className="space-y-5">
           
-          {/* Quick Payees List */}
-          <div className="p-5 rounded-3xl bg-white border border-slate-200 space-y-4 shadow-sm">
-            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-slate-400">
-              Saved Frequent Payees
-            </h3>
+          {frequentPayees.length > 0 && (
+            <div className="p-5 rounded-3xl bg-white border border-slate-200 space-y-4 shadow-sm">
+              <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider text-slate-400">
+                Saved Frequent Payees
+              </h3>
 
-            <div className="space-y-2.5">
-              {frequentPayees.map((payee, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleSelectPayee(payee)}
-                  className="p-3 rounded-2xl bg-slate-50 border border-slate-200 hover:border-slate-300 hover:shadow-sm cursor-pointer transition flex items-center justify-between group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 font-bold text-xs flex items-center justify-center border border-blue-100">
-                      {payee.avatar}
+              <div className="space-y-2.5">
+                {frequentPayees.map((payee, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => handleSelectPayee(payee)}
+                    className="p-3 rounded-2xl bg-slate-50 border border-slate-200 hover:border-slate-300 hover:shadow-sm cursor-pointer transition flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 font-bold text-xs flex items-center justify-center border border-blue-100">
+                        {payee.avatar}
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-slate-800 group-hover:text-blue-600 transition">{payee.name}</p>
+                        <p className="text-[10px] text-slate-500">{payee.bank} • {payee.account}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-xs font-semibold text-slate-800 group-hover:text-blue-600 transition">{payee.name}</p>
-                      <p className="text-[10px] text-slate-500">{payee.bank} • {payee.account}</p>
-                    </div>
+                    <Send className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition" />
                   </div>
-                  <Send className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition" />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Transfer Security Assurance */}
           <div className="p-5 rounded-3xl bg-slate-50 border border-slate-100 space-y-3">
             <div className="flex items-center gap-2 text-emerald-600 text-xs font-semibold">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" /> Apex Guarantee
+              <ShieldCheck className="w-4 h-4 text-emerald-600" /> Transfer Guarantee
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
               All transfers are protected by zero-liability fraud guarantees and verified with end-to-end 256-bit encryption.

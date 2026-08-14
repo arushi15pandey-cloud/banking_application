@@ -37,7 +37,7 @@ export default function Analytics() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100 flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5" /> Apex Financial Intelligence
+              <TrendingUp className="w-3.5 h-3.5" /> Financial Intelligence
             </span>
           </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Financial Health & Protection Insights</h1>

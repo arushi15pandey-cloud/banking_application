@@ -32,13 +32,10 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-lg tracking-tight text-slate-900">APEX</span>
-                <span className="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200/60">
-                  Shield
-                </span>
-              </div>
+            <div className="flex items-center gap-1.5">
+              <span className="font-bold text-lg tracking-tight text-slate-900">Online Banking System</span>
             </div>
+          </div>
           </div>
 
           <div className="flex items-center gap-3">
@@ -84,7 +81,7 @@ export default function LandingPage() {
         </h1>
 
         <p className="text-sm sm:text-base text-slate-500 max-w-2xl leading-relaxed">
-          Apex Bank and Shield Insurance have unified. Check balances, wire instant transfers, calculate real-time premiums, and file claims—all inside a single high-security portal.
+          Our unified platform lets you check balances, wire instant transfers, calculate real-time premiums, and file claims—all inside a single high-security portal.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -107,7 +104,7 @@ export default function LandingPage() {
                 onClick={() => router.push('/login')}
                 className="px-6 py-3.5 rounded-2xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 font-extrabold text-xs transition shadow-sm"
               >
-                Sign In to Demo Account
+                Sign In to Your Account
               </button>
             </>
           )}
@@ -156,7 +153,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="w-full border-t border-slate-200 bg-white py-6 px-6 text-center text-xs text-slate-400">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 Apex Bank & Shield Insurance Services Inc. All rights reserved.</p>
+          <p>© 2026 Online Banking System. All rights reserved.</p>
           <div className="flex gap-4">
             <span className="hover:text-slate-600 cursor-pointer">Member FDIC</span>
             <span>•</span>
